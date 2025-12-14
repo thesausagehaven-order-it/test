@@ -218,9 +218,15 @@
         cart
       },
       callback: res => {
-        window.location.href =
-          "https://sites.google.com/view/thesausagehaven?ref=" +
-          res.reference;
+  cart = [];
+  localStorage.removeItem("cart");
+
+  window.open(
+    "https://sites.google.com/view/thesausagehaven?ref=" + res.reference,
+    "_blank"
+  );
+}
+
       }
     }).openIframe();
   }
