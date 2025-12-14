@@ -154,7 +154,7 @@ function payNow() {
   const total = cart.reduce((sum, i) => sum + i.qty * i.price, 0);
 
   const handler = PaystackPop.setup({
-    key: "pk_test_xxxxxxxxxxxxx", // 🔑 YOUR PUBLIC KEY
+    key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03", // 🔑 YOUR PUBLIC KEY
     email: `${phone}@sausagehaven.com`, // Paystack requires email
     amount: total * 100, // Kobo / pesewas
     currency: "GHS",
