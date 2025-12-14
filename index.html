@@ -7,13 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-100 text-gray-800">
 
 <!-- HEADER -->
-<header class="bg-white shadow-sm sticky top-0 z-30">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+<header class="bg-white shadow sticky top-0 z-30">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
     <h1 class="text-2xl font-bold text-green-700">The Sausage Haven</h1>
-    <button onclick="toggleCart()" class="relative">
+
+    <button onclick="toggleCart()" class="relative text-xl">
       🛒
       <span id="cartCount"
         class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-2 hidden">
@@ -24,49 +25,59 @@
 </header>
 
 <!-- MAIN -->
-<main class="max-w-6xl mx-auto px-4 py-10">
+<main class="max-w-7xl mx-auto px-4 py-8">
 
-  <!-- PRODUCT -->
-  <section class="grid md:grid-cols-2 gap-8 items-center">
-    <img src="https://i.ibb.co/QjMfBBqz/LOGO.png" class="w-full max-w-sm mx-auto">
+  <h2 class="text-xl font-semibold mb-6">Available Products</h2>
 
-    <div>
-      <h2 class="text-3xl font-bold mb-2">Sadia Sausage</h2>
-      <p class="text-gray-600 mb-4">Fresh, tasty Sadia sausages delivered hot.</p>
+  <!-- PRODUCT GRID -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
 
-      <p class="text-xl font-semibold mb-2">GHS <span id="price">25.00</span></p>
+    <!-- PRODUCT CARD -->
+    <div class="bg-white rounded-lg shadow-sm p-4 flex flex-col">
+      <img src="https://i.ibb.co/QjMfBBqz/LOGO.png"
+        class="h-32 object-contain mb-3">
 
-      <span id="stockBadge"
-        class="inline-block mb-4 px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">
+      <h3 class="font-semibold text-sm mb-1">Sadia Sausage</h3>
+
+      <p class="text-green-700 font-bold mb-1">GHS 25.00</p>
+
+      <span class="text-xs mb-3 inline-block px-2 py-1 rounded-full
+        bg-green-100 text-green-700">
         In Stock
       </span>
 
-      <div class="flex items-center gap-4">
-        <input id="qty" type="number" min="1" value="1"
-          class="w-20 border rounded px-3 py-2">
-        <button onclick="addToCart()"
-          class="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">
-          Add to Cart
+      <div class="flex items-center gap-2 mt-auto">
+        <input id="qty-sadia" type="number" min="1" value="1"
+          class="w-16 border rounded px-2 py-1 text-sm">
+
+        <button onclick="addToCart('Sadia Sausage', 25.50, 'qty-sadia')"
+          class="flex-1 bg-green-700 text-white text-sm py-1 rounded hover:bg-green-800">
+          Add
         </button>
       </div>
     </div>
-  </section>
 
+    <!-- MORE CARDS WILL COME HERE LATER -->
+
+  </div>
 </main>
 
 <!-- CART DRAWER -->
 <div id="cartDrawer"
-  class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-lg transform translate-x-full transition z-40">
+  class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg
+         transform translate-x-full transition z-40">
 
   <div class="p-4 flex justify-between items-center border-b">
-    <h3 class="text-xl font-bold">Your Cart</h3>
+    <h3 class="text-lg font-bold">Your Cart</h3>
     <button onclick="toggleCart()">✖</button>
   </div>
 
   <div id="cartItems" class="p-4 space-y-3"></div>
 
   <div class="p-4 border-t">
-    <p class="font-semibold mb-2">Total: GHS <span id="cartTotal">0.00</span></p>
+    <p class="font-semibold mb-2">
+      Total: GHS <span id="cartTotal">0.00</span>
+    </p>
     <button onclick="showCheckout()"
       class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">
       Checkout
@@ -78,8 +89,8 @@
 <div id="checkoutModal"
   class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
 
-  <div class="bg-white p-6 rounded w-full max-w-md">
-    <h3 class="text-xl font-bold mb-4">Checkout</h3>
+  <div class="bg-white p-6 rounded-lg w-full max-w-md">
+    <h3 class="text-lg font-bold mb-4">Checkout</h3>
 
     <input id="name" placeholder="Full Name"
       class="w-full border rounded px-3 py-2 mb-3">
@@ -90,26 +101,45 @@
     <input id="location" placeholder="Delivery Location"
       class="w-full border rounded px-3 py-2 mb-3">
 
-    <textarea id="notes" placeholder="Notes (optional)"
-      class="w-full border rounded px-3 py-2 mb-3"></textarea>
+    <!-- PAYMENT METHOD -->
+    <div class="mb-4">
+      <p class="font-medium mb-2">Payment Method</p>
+
+      <label class="flex items-center gap-2 mb-1">
+        <input type="radio" name="paymentMethod" value="momo" checked>
+        Mobile Money (Paystack)
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input type="radio" name="paymentMethod" value="cod">
+        Cash on Delivery
+      </label>
+    </div>
 
     <button onclick="payNow()"
       class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">
-      Pay Now
+      Place Order
     </button>
   </div>
 </div>
 
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
 <script>
-  const PRICE = 25.50;
   let cart = [];
 
-  function addToCart() {
-    const qty = Number(document.getElementById("qty").value);
-    cart = [{ name: "Sadia Sausage", qty, price: PRICE }];
+  function addToCart(name, price, qtyId) {
+    const qty = Number(document.getElementById(qtyId).value);
+
+    if (qty < 1) return;
+
+    cart = [{ name, qty, price }];
+
     document.getElementById("cartCount").innerText = qty;
     document.getElementById("cartCount").classList.remove("hidden");
+
     renderCart();
+    toggleCart();
   }
 
   function renderCart() {
@@ -118,11 +148,13 @@
     let total = 0;
 
     cart.forEach(item => {
-      total += item.qty * item.price;
+      const itemTotal = item.qty * item.price;
+      total += itemTotal;
+
       container.innerHTML += `
-        <div class="flex justify-between">
+        <div class="flex justify-between text-sm">
           <span>${item.name} × ${item.qty}</span>
-          <span>GHS ${(item.qty * item.price).toFixed(2)}</span>
+          <span>GHS ${itemTotal.toFixed(2)}</span>
         </div>
       `;
     });
@@ -135,57 +167,60 @@
   }
 
   function showCheckout() {
+    if (cart.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
     document.getElementById("checkoutModal").classList.remove("hidden");
   }
 
-</script>
-<script src="https://js.paystack.co/v1/inline.js"></script>
-  <script>
-function payNow() {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const location = document.getElementById("location").value.trim();
+  function payNow() {
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const location = document.getElementById("location").value.trim();
+    const paymentMethod =
+      document.querySelector('input[name="paymentMethod"]:checked')?.value;
 
-  if (!name || !phone || !location) {
-    alert("Please fill all required fields");
-    return;
-  }
-
-  const total = cart.reduce((sum, i) => sum + i.qty * i.price, 0);
-
-  const handler = PaystackPop.setup({
-    key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03", // 🔑 YOUR PUBLIC KEY
-    email: `${phone}@sausagehaven.com`, // Paystack requires email
-    amount: total * 100, // Kobo / pesewas
-    currency: "GHS",
-
-    metadata: {
-      custom_fields: [
-        { display_name: "Customer Name", variable_name: "name", value: name },
-        { display_name: "Phone", variable_name: "phone", value: phone },
-        { display_name: "Location", variable_name: "location", value: location }
-      ],
-      cart: cart
-    },
-
-   callback: function (response) {
-  // Optional: store reference locally (for display)
-  localStorage.setItem("last_order_ref", response.reference);
-
-  // Redirect to confirmation page
-  window.location.href =
-    "https://sites.google.com/view/thesausagehaven?usp=sharing" + response.reference;
-},
-
-    onClose: function () {
-      alert("Payment cancelled");
+    if (!name || !phone || !location) {
+      alert("Fill all fields");
+      return;
     }
-  });
 
-  handler.openIframe();
-}
+    const total = cart.reduce((s, i) => s + i.qty * i.price, 0);
+
+    if (paymentMethod === "cod") {
+      fetch("https://lucky-firefly-e807.armahemmanuel015.workers.dev/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, location, cart, amount: total })
+      }).then(() => {
+        window.location.href =
+          "https://sites.google.com/view/thesausagehaven?cod=true";
+      });
+      return;
+    }
+
+    PaystackPop.setup({
+      key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03",
+      email: `${phone}@sausagehaven.com`,
+      amount: total * 100,
+      currency: "GHS",
+      metadata: {
+        custom_fields: [
+          { variable_name: "name", value: name },
+          { variable_name: "phone", value: phone },
+          { variable_name: "location", value: location }
+        ],
+        cart
+      },
+      callback: res => {
+        window.location.href =
+          "https://sites.google.com/view/thesausagehaven?ref=" +
+          res.reference;
+      }
+    }).openIframe();
+  }
 </script>
-
 
 </body>
 </html>
