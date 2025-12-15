@@ -185,11 +185,34 @@
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
+  function increaseQty(qtyId) {
+  const el = document.getElementById(qtyId);
+  el.innerText = Number(el.innerText) + 1;
+}
+
+function decreaseQty(qtyId) {
+  const el = document.getElementById(qtyId);
+  if (Number(el.innerText) > 1) {
+    el.innerText = Number(el.innerText) - 1;
+  }
+}
+
   let cart = [];
 
-  function addToCart(name, price, qtyId) {
-    const qty = Number(document.getElementById(qtyId).value);
-    if (qty < 1) return;
+ function addToCart(name, price, qtyId) {
+  const qty = Number(document.getElementById(qtyId).innerText);
+
+  if (qty < 1) return;
+
+  cart = [{ name, qty, price }];
+
+  document.getElementById("cartCount").innerText = qty;
+  document.getElementById("cartCount").classList.remove("hidden");
+
+  renderCart();
+  toggleCart();
+}
+
 
     // Check if item already exists in cart
     const existingIndex = cart.findIndex(i => i.name === name);
