@@ -243,50 +243,62 @@
 }
 
 
-  function payNow() {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const location = document.getElementById("location").value.trim();
-    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+  async function payNow() {
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const location = document.getElementById("location").value.trim();
+  const paymentMethod =
+    document.querySelector('input[name="paymentMethod"]:checked')?.value;
 
-    if (!name || !phone || !location) {
-      alert("Fill all fields");
-      return;
-    }
-
-    const total = cart.reduce((s, i) => s + i.qty * i.price, 0);
-
-    if (paymentMethod === "cod") {
-      fetch("https://lucky-firefly-e807.armahemmanuel015.workers.dev/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, location, cart, amount: total })
-      }).then(() => {
-        window.location.href = "https://sites.google.com/view/thesausagehaven?cod=true";
-      });
-      return;
-    }
-
-    PaystackPop.setup({
-      key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03",
-      email: `${phone}@sausagehaven.com`,
-      amount: total * 100,
-      currency: "GHS",
-      metadata: {
-        custom_fields: [
-          { variable_name: "name", value: name },
-          { variable_name: "phone", value: phone },
-          { variable_name: "location", value: location }
-        ],
-        cart
-      },
-      callback: res => {
-        cart = [];
-        localStorage.removeItem("cart");
-        window.open("https://sites.google.com/view/thesausagehaven?ref=" + res.reference, "_blank");
-      }
-    }).openIframe();
+  if (!name || !phone || !location) {
+    alert("Fill all fields");
+    return;
   }
+
+  const total = cart.reduce((s, i) => s + i.qty * i.price, 0);
+
+  const payload = { name, phone, location, cart, amount: total, paymentMethod };
+
+  if (paymentMethod === "cod") {
+    // Save COD order immediately
+    await fetch("https://your-worker-domain.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    alert("Order placed! ✅");
+    cart = [];
+    renderCart();
+    document.getElementById("checkoutModal").classList.add("hidden");
+    return;
+  }
+
+  // Mobile Money (Paystack)
+  PaystackPop.setup({
+    key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03",
+    email: `${phone}@sausagehaven.com`,
+    amount: total * 100,
+    currency: "GHS",
+    metadata: {
+      custom_fields: [
+        { variable_name: "name", value: name },
+        { variable_name: "phone", value: phone },
+        { variable_name: "location", value: location }
+      ],
+      cart
+    },
+    callback: function (res) {
+     window.open("https://sites.google.com/view/thesausagehaven?ref=" + res.reference, "_blank");
+      }
+
+      cart = [];
+      renderCart();
+      document.getElementById("checkoutModal").classList.add("hidden");
+    }
+  }).openIframe();
+}
+
 </script>
 
 </body>
