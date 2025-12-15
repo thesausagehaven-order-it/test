@@ -1,133 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Sausage Haven</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Optional: smooth transition for cart drawer */
-    #cartDrawer { transition: transform 0.3s ease-in-out; }
-    #checkoutModal { transition: opacity 0.3s ease; }
+    /* Custom Tailwind config overrides */
+    :root {
+      --accent-warm: #F2D0A7;
+    }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
+
+<body class="bg-gradient-to-b from-[#F2D0A7] via-gray-100 to-white text-gray-800">
 
 <!-- HEADER -->
-<header class="bg-white shadow sticky top-0 z-30">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <div class="flex items-center gap-2">
-      <img src="https://i.ibb.co/QjMfBBqz/LOGO.png" alt="Logo" class="h-10 w-10 object-contain">
-      <h1 class="text-2xl font-bold text-green-700">The Sausage Haven</h1>
+<header class="bg-white shadow-lg sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="https://i.ibb.co/QjMfBBqz/LOGO.png" alt="Logo" class="h-12 w-12 object-contain rounded-full shadow-lg">
+      <h1 class="text-3xl font-extrabold text-green-700 tracking-tight">The Sausage Haven</h1>
     </div>
 
-    <button onclick="toggleCart()" class="relative text-xl">
+    <button onclick="toggleCart()" class="relative text-2xl bg-green-100 hover:bg-green-200 px-3 py-2 rounded-full transition">
       🛒
-      <span id="cartCount" class="absolute -top-2 -right-2 bg-[#F2D0A7] text-green-800 text-xs rounded-full px-2 hidden">0</span>
+      <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-2 hidden">0</span>
     </button>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="relative bg-white rounded-xl overflow-hidden mb-10 shadow-md">
-  <img src="https://images.unsplash.com/photo-1604908177225-6dd5f39c9c4f" 
-       class="absolute inset-0 w-full h-full object-cover opacity-30" alt="Sausages">
-  
-  <div class="relative p-8 md:p-14 grid md:grid-cols-2 gap-8 items-center">
-    <!-- Text -->
-    <div>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-3 drop-shadow-md">
-        Hot, Fresh Sausages <br class="hidden md:block"> Delivered to You 🍖
-      </h2>
-      <p class="text-gray-700 mb-6 text-lg">
-        Quality sausages you trust — perfect for meals, hangouts, and campus life.
-      </p>
-      <div class="flex gap-3">
-        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" 
-                class="bg-green-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-800 shadow-md transition transform hover:-translate-y-1">
-          Shop Now
-        </button>
-        <button class="border border-green-700 text-green-700 px-6 py-3 rounded-lg font-medium hover:bg-[#F2D0A7] hover:text-green-800 transition transform hover:-translate-y-1">
-          Learn More
-        </button>
+<!-- MAIN -->
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+  <!-- HERO SECTION -->
+  <section class="relative bg-gradient-to-r from-green-100 via-[#F2D0A7] to-green-50 rounded-2xl overflow-hidden mb-12 shadow-xl">
+    <div class="relative p-10 md:p-16 grid md:grid-cols-2 gap-10 items-center">
+      
+      <!-- TEXT -->
+      <div>
+        <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+          Hot, Fresh Sausages <br class="hidden md:block">
+          Delivered to You 🍖
+        </h2>
+        <p class="text-gray-700 text-lg mb-6">
+          Quality sausages you trust — perfect for meals, hangouts, and campus life.
+        </p>
+
+        <div class="flex gap-4 flex-wrap">
+          <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})"
+            class="bg-green-700 text-white px-7 py-3 rounded-xl font-semibold shadow-lg hover:bg-green-800 transition transform hover:scale-105">
+            Shop Now
+          </button>
+
+          <button
+            class="border-2 border-green-700 text-green-700 px-7 py-3 rounded-xl font-semibold hover:bg-green-100 transition transform hover:scale-105">
+            Learn More
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- Hero Image -->
-    <div class="hidden md:block">
-      <img src="https://images.unsplash.com/photo-1617196037734-5b8b45b6a6c6" 
-           class="rounded-xl shadow-lg" alt="Sausage Plate">
-    </div>
-  </div>
-</section>
-
-<!-- SHOP SECTION -->
-<section id="shop" class="mb-16 max-w-7xl mx-auto px-4">
-  <h2 class="text-2xl font-bold mb-1">Shop Our Sausages</h2>
-  <p class="text-sm text-gray-600 mb-6">Fresh stock • Affordable prices • Fast delivery</p>
-
-  <!-- PRODUCT GRID -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-    
-    <!-- PRODUCT CARD EXAMPLE -->
-    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col hover:-translate-y-1">
-      <img src="https://jssupermarketgy.com/wp-content/uploads/2021/04/1020416-1.jpg" 
-           class="h-32 object-contain mb-3 transition-transform duration-300 hover:scale-105 rounded-lg">
-
-      <h3 class="font-semibold text-sm mb-1">Sadia Sausage</h3>
-      <p class="text-green-700 font-bold mb-1">GHS 25.00</p>
-
-      <span class="text-xs mb-3 inline-block px-2 py-1 rounded-full bg-[#F2D0A7] text-green-800 font-semibold">
-        In Stock
-      </span>
-
-      <div class="flex items-center gap-2 mt-auto">
-        <input id="qty-sadia" type="number" min="1" value="1" 
-               class="w-16 border rounded px-2 py-1 text-sm focus:ring-1 focus:ring-green-700">
-
-        <button onclick="addToCart('Sadia Sausage', 25.50, 'qty-sadia')" 
-                class="flex-1 bg-green-700 text-white text-sm py-1 rounded hover:bg-green-800 shadow-sm transition">
-          Add
-        </button>
+      <!-- IMAGE -->
+      <div class="hidden md:block">
+        <img src="https://images.unsplash.com/photo-1617196037734-5b8b45b6a6c6"
+          class="rounded-2xl shadow-2xl hover:scale-105 transform transition"
+          alt="Sausage Plate">
       </div>
-    </div>
 
-    <!-- ADD MORE PRODUCT CARDS AS NEEDED -->
-    
-  </div>
-</section>
+    </div>
+  </section>
+
+  <!-- SHOP SECTION -->
+  <section id="shop" class="mb-12">
+    <h2 class="text-3xl font-bold mb-2 text-gray-900">Shop Our Sausages</h2>
+    <p class="text-gray-700 mb-6 text-lg">Fresh stock • Affordable prices • Fast delivery</p>
+
+    <!-- PRODUCT GRID -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+
+      <!-- PRODUCT CARD -->
+      <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition p-4 flex flex-col">
+        <img src="https://jssupermarketgy.com/wp-content/uploads/2021/04/1020416-1.jpg"
+          class="h-36 object-contain mb-3 rounded-xl transition-transform duration-300 hover:scale-105">
+        <h3 class="font-semibold text-sm mb-1 text-gray-900">Sadia Sausage</h3>
+        <p class="text-green-700 font-bold mb-1 text-lg">GHS 25.00</p>
+        <span class="text-xs mb-3 inline-block px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium">In Stock</span>
+
+        <div class="flex items-center gap-2 mt-auto">
+          <input id="qty-sadia" type="number" min="1" value="1"
+            class="w-16 border rounded px-2 py-1 text-sm focus:ring-2 focus:ring-green-300">
+          <button onclick="addToCart('Sadia Sausage', 25.50, 'qty-sadia')"
+            class="flex-1 bg-green-700 text-white text-sm py-2 rounded-xl hover:bg-green-800 shadow transition transform hover:scale-105">
+            Add
+          </button>
+        </div>
+      </div>
+
+      <!-- MORE CARDS CAN BE ADDED HERE -->
+
+    </div>
+  </section>
+
+</main>
 
 <!-- CART DRAWER -->
-<div id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg transform translate-x-full z-40">
-  <div class="p-4 flex justify-between items-center border-b">
-    <h3 class="text-lg font-bold">Your Cart</h3>
-    <button onclick="toggleCart()">✖</button>
+<div id="cartDrawer"
+  class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-2xl
+         transform translate-x-full transition z-50">
+
+  <div class="p-6 flex justify-between items-center border-b">
+    <h3 class="text-xl font-bold text-gray-900">Your Cart</h3>
+    <button onclick="toggleCart()" class="text-gray-700 text-2xl hover:text-red-600 transition">✖</button>
   </div>
-  <div id="cartItems" class="p-4 space-y-3 max-h-[70vh] overflow-y-auto"></div>
-  <div class="p-4 border-t">
-    <p class="font-semibold mb-2">Total: GHS <span id="cartTotal">0.00</span></p>
-    <button onclick="showCheckout()" class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">
+
+  <div id="cartItems" class="p-6 space-y-4"></div>
+
+  <div class="p-6 border-t">
+    <p class="font-semibold text-lg mb-3">
+      Total: GHS <span id="cartTotal">0.00</span>
+    </p>
+    <button onclick="showCheckout()"
+      class="w-full bg-green-700 text-white py-3 rounded-xl shadow hover:bg-green-800 transition transform hover:scale-105">
       Checkout
     </button>
   </div>
 </div>
 
 <!-- CHECKOUT MODAL -->
-<div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
-  <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
-    <h3 class="text-lg font-bold mb-4 text-green-700">Checkout</h3>
+<div id="checkoutModal"
+  class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
 
-    <input id="name" placeholder="Full Name" class="w-full border rounded px-3 py-2 mb-3 focus:ring-1 focus:ring-green-700">
-    <input id="phone" placeholder="Phone Number" class="w-full border rounded px-3 py-2 mb-3 focus:ring-1 focus:ring-green-700">
-    <input id="location" placeholder="Delivery Location" class="w-full border rounded px-3 py-2 mb-3 focus:ring-1 focus:ring-green-700">
+  <div class="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl">
+    <h3 class="text-xl font-bold mb-5 text-gray-900">Checkout</h3>
+
+    <input id="name" placeholder="Full Name" class="w-full border rounded-lg px-4 py-2 mb-3 focus:ring-2 focus:ring-green-300">
+    <input id="phone" placeholder="Phone Number" class="w-full border rounded-lg px-4 py-2 mb-3 focus:ring-2 focus:ring-green-300">
+    <input id="location" placeholder="Delivery Location" class="w-full border rounded-lg px-4 py-2 mb-3 focus:ring-2 focus:ring-green-300">
 
     <div class="mb-4">
-      <p class="font-medium mb-2">Payment Method</p>
-      <label class="flex items-center gap-2 mb-1"><input type="radio" name="paymentMethod" value="momo" checked> Mobile Money (Paystack)</label>
-      <label class="flex items-center gap-2"><input type="radio" name="paymentMethod" value="cod"> Cash on Delivery</label>
+      <p class="font-medium mb-2 text-gray-800">Payment Method</p>
+      <label class="flex items-center gap-2 mb-1">
+        <input type="radio" name="paymentMethod" value="momo" checked>
+        Mobile Money (Paystack)
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="radio" name="paymentMethod" value="cod">
+        Cash on Delivery
+      </label>
     </div>
 
-    <button onclick="payNow()" class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">Place Order</button>
+    <button onclick="payNow()"
+      class="w-full bg-green-700 text-white py-3 rounded-xl shadow hover:bg-green-800 transition transform hover:scale-105">
+      Place Order
+    </button>
   </div>
 </div>
 
@@ -138,9 +163,21 @@
   function addToCart(name, price, qtyId) {
     const qty = Number(document.getElementById(qtyId).value);
     if (qty < 1) return;
-    cart = [{ name, qty, price }];
-    document.getElementById("cartCount").innerText = qty;
-    document.getElementById("cartCount").classList.remove("hidden");
+
+    // Check if item already exists in cart
+    const existingIndex = cart.findIndex(i => i.name === name);
+    if(existingIndex >= 0) {
+      cart[existingIndex].qty += qty;
+    } else {
+      cart.push({ name, qty, price });
+    }
+
+    // Update cart badge
+    const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+    const badge = document.getElementById("cartCount");
+    badge.innerText = totalQty;
+    badge.classList.remove("hidden");
+
     renderCart();
     toggleCart();
   }
@@ -155,7 +192,7 @@
       total += itemTotal;
 
       container.innerHTML += `
-        <div class="flex justify-between text-sm">
+        <div class="flex justify-between text-sm font-medium">
           <span>${item.name} × ${item.qty}</span>
           <span>GHS ${itemTotal.toFixed(2)}</span>
         </div>
@@ -170,7 +207,10 @@
   }
 
   function showCheckout() {
-    if (cart.length === 0) { alert("Cart is empty"); return; }
+    if (cart.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
     document.getElementById("checkoutModal").classList.remove("hidden");
   }
 
@@ -180,7 +220,10 @@
     const location = document.getElementById("location").value.trim();
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
 
-    if (!name || !phone || !location) { alert("Fill all fields"); return; }
+    if (!name || !phone || !location) {
+      alert("Fill all fields");
+      return;
+    }
 
     const total = cart.reduce((s, i) => s + i.qty * i.price, 0);
 
@@ -200,7 +243,14 @@
       email: `${phone}@sausagehaven.com`,
       amount: total * 100,
       currency: "GHS",
-      metadata: { custom_fields: [{ variable_name: "name", value: name }, { variable_name: "phone", value: phone }, { variable_name: "location", value: location }], cart },
+      metadata: {
+        custom_fields: [
+          { variable_name: "name", value: name },
+          { variable_name: "phone", value: phone },
+          { variable_name: "location", value: location }
+        ],
+        cart
+      },
       callback: res => {
         cart = [];
         localStorage.removeItem("cart");
@@ -209,5 +259,6 @@
     }).openIframe();
   }
 </script>
+
 </body>
 </html>
