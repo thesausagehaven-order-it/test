@@ -1,8 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Sausage Haven</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --accent-warm: #F2D0A7;
+  }
+</style>
+</head>
+
+<body class="bg-gradient-to-b from-[#F2D0A7] via-gray-100 to-white text-gray-800">
+
+<!-- HEADER -->
+<header class="bg-white shadow-lg sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="https://i.ibb.co/QjMfBBqz/LOGO.png" alt="Logo" class="h-12 w-12 object-contain rounded-full shadow-lg">
+      <h1 class="text-3xl font-extrabold text-green-700 tracking-tight">The Sausage Haven</h1>
+    </div>
+
+    <button onclick="toggleCart()" class="relative text-2xl bg-green-100 hover:bg-green-200 px-3 py-2 rounded-full transition">
+      🛒
+      <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-2 hidden">0</span>
+    </button>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+<!-- HERO SECTION -->
+<section class="relative bg-gradient-to-r from-green-100 via-[#F2D0A7] to-green-50 rounded-2xl overflow-hidden mb-12 shadow-xl">
+  <div class="relative p-10 md:p-16 grid md:grid-cols-2 gap-10 items-center">
+    
+    <!-- TEXT -->
+    <div>
+      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+        Hot, Fresh Sausages <br class="hidden md:block">
+        Delivered to You 
+      </h2>
+      <p class="text-gray-700 text-lg mb-6">
+        Quality sausages you trust — perfect for meals, hangouts, and campus life.
+      </p>
+
+      <div class="flex gap-4 flex-wrap">
+        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})"
+          class="bg-green-700 text-white px-7 py-3 rounded-xl font-semibold shadow-lg hover:bg-green-800 transition transform hover:scale-105">
+          Shop Now
+        </button>
+
+        <button class="border-2 border-green-700 text-green-700 px-7 py-3 rounded-xl font-semibold hover:bg-green-100 transition transform hover:scale-105">
+          Learn More
+        </button>
+      </div>
+    </div>
+
+    <!-- IMAGE -->
+    <div class="hidden md:block">
+      <img src="https://images.unsplash.com/photo-1617196037734-5b8b45b6a6c6"
+        class="rounded-2xl shadow-2xl hover:scale-105 transform transition"
+        alt="Sausage Plate">
+    </div>
+  </div>
+</section>
+
+<!-- SHOP SECTION -->
+<section id="shop" class="mb-12">
+  <h2 class="text-3xl font-bold mb-2 text-gray-900">Shop Our Sausages</h2>
+  <p class="text-gray-700 mb-6 text-lg">Fresh stock • Affordable prices • Fast delivery</p>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+
+    <!-- PRODUCT CARD -->
+    <div class="bg-white rounded-xl shadow hover:shadow-md transition p-4 flex flex-col">
+      <img src="https://jssupermarketgy.com/wp-content/uploads/2021/04/1020416-1.jpg"
+        class="h-32 object-contain mb-3 transition-transform duration-300 hover:scale-105">
+      <h3 class="font-semibold text-sm mb-1">Sadia Sausage</h3>
+      <p class="text-green-700 font-bold mb-1">GHS 25.00</p>
+      <span class="text-xs mb-3 inline-block px-2 py-1 rounded-full bg-green-100 text-green-700">In Stock</span>
+
+      <div class="flex items-center gap-2 mt-auto">
+        <button onclick="decreaseQty('qty-sadia')" class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">-</button>
+        <span id="qty-sadia" class="w-12 text-center">1</span>
+        <button onclick="increaseQty('qty-sadia')" class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">+</button>
+
+        <button onclick="addToCart('Sadia Sausage', 25.00, 'qty-sadia')"
+          class="flex-1 bg-green-700 text-white text-sm py-1 rounded hover:bg-green-800">
+          Add
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<!-- CART DRAWER -->
+<div id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-2xl transform translate-x-full transition z-50">
+  <div class="p-6 flex justify-between items-center border-b">
+    <h3 class="text-xl font-bold text-gray-900">Your Cart</h3>
+    <button onclick="toggleCart()" class="text-gray-700 text-2xl hover:text-red-600 transition">✖</button>
+  </div>
+  <div id="cartItems" class="p-6 space-y-4"></div>
+  <div class="p-6 border-t">
+    <p class="font-semibold text-lg mb-3">
+      Total: GHS <span id="cartTotal">0.00</span>
+    </p>
+    <button onclick="showCheckout()"
+      class="w-full bg-green-700 text-white py-3 rounded-xl shadow hover:bg-green-800 transition transform hover:scale-105">
+      Checkout
+    </button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg w-full max-w-md relative">
+    <button onclick="closeCheckout()" class="absolute top-3 right-3 text-gray-700 text-2xl hover:text-red-600 transition">✖</button>
+    <h3 class="text-lg font-bold mb-4">Checkout</h3>
+
+    <input id="name" placeholder="Full Name" class="w-full border rounded px-3 py-2 mb-3">
+    <input id="phone" placeholder="Phone Number" class="w-full border rounded px-3 py-2 mb-3">
+    <input id="location" placeholder="Delivery Location" class="w-full border rounded px-3 py-2 mb-3">
+
+    <div class="mb-4">
+      <p class="font-medium mb-2">Payment Method</p>
+      <label class="flex items-center gap-2 mb-1">
+        <input type="radio" name="paymentMethod" value="momo" checked> Mobile Money (Paystack)
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="radio" name="paymentMethod" value="cod"> Cash on Delivery
+      </label>
+    </div>
+
+    <button onclick="payNow()" class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">Place Order</button>
+  </div>
+</div>
+
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
-  // =========================
-  // QUANTITY BUTTONS
-  // =========================
+  // ===== QUANTITY BUTTONS =====
   function increaseQty(qtyId) {
     const el = document.getElementById(qtyId);
     el.innerText = Number(el.innerText) + 1;
@@ -10,24 +149,19 @@
 
   function decreaseQty(qtyId) {
     const el = document.getElementById(qtyId);
-    if (Number(el.innerText) > 1) {
-      el.innerText = Number(el.innerText) - 1;
-    }
+    if (Number(el.innerText) > 1) el.innerText = Number(el.innerText) - 1;
   }
 
-  // =========================
-  // CART LOGIC
-  // =========================
+  // ===== CART =====
   let cart = [];
 
   function addToCart(name, price, qtyId) {
     const qty = Number(document.getElementById(qtyId).innerText);
     if (qty < 1) return;
 
-    // Check if item already exists
-    const existingIndex = cart.findIndex(item => item.name === name);
-    if (existingIndex >= 0) {
-      cart[existingIndex].qty += qty;
+    const index = cart.findIndex(i => i.name === name);
+    if (index >= 0) {
+      cart[index].qty += qty;
     } else {
       cart.push({ name, qty, price });
     }
@@ -52,13 +186,10 @@
     cart.forEach(item => {
       const itemTotal = item.qty * item.price;
       total += itemTotal;
-
-      container.innerHTML += `
-        <div class="flex justify-between text-sm font-medium">
-          <span>${item.name} × ${item.qty}</span>
-          <span>GHS ${itemTotal.toFixed(2)}</span>
-        </div>
-      `;
+      container.innerHTML += `<div class="flex justify-between text-sm font-medium">
+        <span>${item.name} × ${item.qty}</span>
+        <span>GHS ${itemTotal.toFixed(2)}</span>
+      </div>`;
     });
 
     document.getElementById("cartTotal").innerText = total.toFixed(2);
@@ -68,14 +199,8 @@
     document.getElementById("cartDrawer").classList.toggle("translate-x-full");
   }
 
-  // =========================
-  // CHECKOUT MODAL
-  // =========================
   function showCheckout() {
-    if (cart.length === 0) {
-      alert("Cart is empty");
-      return;
-    }
+    if (cart.length === 0) return alert("Cart is empty");
     document.getElementById("checkoutModal").classList.remove("hidden");
   }
 
@@ -83,31 +208,24 @@
     document.getElementById("checkoutModal").classList.add("hidden");
   }
 
-  // =========================
-  // PAYMENT LOGIC
-  // =========================
+  // ===== PAYMENT =====
   async function payNow() {
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const location = document.getElementById("location").value.trim();
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
 
-    if (!name || !phone || !location) {
-      alert("Fill all fields");
-      return;
-    }
+    if (!name || !phone || !location) return alert("Fill all fields");
 
     const total = cart.reduce((sum, i) => sum + i.qty * i.price, 0);
     const payload = { name, phone, location, cart, amount: total, paymentMethod };
 
     if (paymentMethod === "cod") {
-      // COD: save directly
       await fetch("https://your-worker-domain.workers.dev", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-
       alert("Order placed! ✅");
       cart = [];
       renderCart();
@@ -115,11 +233,10 @@
       return;
     }
 
-    // Mobile Money (Paystack)
     PaystackPop.setup({
       key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03",
       email: `${phone}@sausagehaven.com`,
-      amount: total * 100, // in pesewas
+      amount: total * 100,
       currency: "GHS",
       metadata: {
         custom_fields: [
@@ -130,14 +247,12 @@
         cart
       },
       callback: async function (res) {
-        // Payment confirmed, save order to backend
-        payload.reference = res.reference; // add Paystack reference
+        payload.reference = res.reference;
         await fetch("https://your-worker-domain.workers.dev", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-
         alert("Payment successful! ✅");
         cart = [];
         renderCart();
@@ -149,3 +264,5 @@
     }).openIframe();
   }
 </script>
+</body>
+</html>
