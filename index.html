@@ -82,7 +82,7 @@
         </div>
       </div>
 
-      <!-- More products can be added here -->
+      <!-- Add more products here if needed -->
 
     </div>
   </section>
@@ -105,7 +105,7 @@
 </div>
 
 <!-- CHECKOUT MODAL -->
-<div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+<div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50">
   <div class="bg-white p-6 rounded-lg w-full max-w-md relative">
     <button onclick="closeCheckout()" class="absolute top-3 right-3 text-gray-700 text-2xl hover:text-red-600 transition">✖</button>
     <h3 class="text-lg font-bold mb-4">Checkout</h3>
@@ -201,38 +201,50 @@ function closeCheckout(){
 }
 
 async function payNow(){
+  console.log("payNow called");
+
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const location = document.getElementById('location').value.trim();
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
   if(!name || !phone || !location){ alert("Fill all fields"); return;}
+
   const total = cart.reduce((s,i)=>s+i.qty*i.price,0);
   const payload = {name, phone, location, cart, amount: total, paymentMethod};
 
-  if(paymentMethod==='cod'){
+  if(paymentMethod === 'cod'){
     await fetch('https://your-worker-domain.workers.dev', {
-      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
     });
     alert("Order placed! ✅");
     cart=[]; renderCart(); closeCheckout(); return;
   }
 
-  // Paystack
+  if(typeof PaystackPop === "undefined"){
+    alert("Paystack not loaded");
+    return;
+  }
+
+  console.log("Launching Paystack...");
+
   PaystackPop.setup({
     key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03",
     email: `${phone}@sausagehaven.com`,
     amount: total*100,
     currency:"GHS",
-    metadata: {cart, custom_fields:[
-      {variable_name:"name", value:name},
-      {variable_name:"phone", value:phone},
-      {variable_name:"location", value:location}
-    ]},
+    metadata: {
+      custom_fields:[
+        {display_name:"Name", variable_name:"name", value:name},
+        {display_name:"Phone", variable_name:"phone", value:phone},
+        {display_name:"Location", variable_name:"location", value:location}
+      ]
+    },
     callback: async function(res){
-      console.log("Payment Success!", res.reference);
       await fetch('https://your-worker-domain.workers.dev', {
-        method:'POST', headers:{'Content-Type':'application/json'},
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
         body: JSON.stringify({...payload, reference: res.reference})
       });
       alert("Payment Successful! ✅");
