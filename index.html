@@ -6,9 +6,7 @@
   <title>The Sausage Haven</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root {
-      --accent-warm: #F2D0A7;
-    }
+    :root { --accent-warm: #F2D0A7; }
   </style>
 </head>
 <body class="bg-gradient-to-b from-[#F2D0A7] via-gray-100 to-white text-gray-800">
@@ -82,8 +80,6 @@
         </div>
       </div>
 
-      <!-- Add more products here if needed -->
-
     </div>
   </section>
 </main>
@@ -107,7 +103,7 @@
 <!-- CHECKOUT MODAL -->
 <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50">
   <div class="bg-white p-6 rounded-lg w-full max-w-md relative">
-    <button onclick="closeCheckout()" class="absolute top-3 right-3 text-gray-700 text-2xl hover:text-red-600 transition">✖</button>
+    <!-- Removed Close Button -->
     <h3 class="text-lg font-bold mb-4">Checkout</h3>
 
     <input id="name" placeholder="Full Name" class="w-full border rounded px-3 py-2 mb-3">
@@ -144,13 +140,8 @@ function decreaseQty(id) {
 function addToCart(name, price, qtyId) {
   const qty = Number(document.getElementById(qtyId).innerText);
   const existingIndex = cart.findIndex(i => i.name === name);
-
-  if(existingIndex >= 0){
-    cart[existingIndex].qty += qty;
-  } else {
-    cart.push({name, price, qty});
-  }
-
+  if(existingIndex >= 0) cart[existingIndex].qty += qty;
+  else cart.push({name, price, qty});
   renderCart();
   toggleCart();
 }
@@ -158,6 +149,16 @@ function addToCart(name, price, qtyId) {
 function removeFromCart(name){
   cart = cart.filter(i => i.name !== name);
   renderCart();
+}
+
+function increaseCartQty(name){
+  const item = cart.find(i=>i.name===name);
+  if(item){ item.qty += 1; renderCart(); }
+}
+
+function decreaseCartQty(name){
+  const item = cart.find(i=>i.name===name);
+  if(item && item.qty > 1){ item.qty -= 1; renderCart(); }
 }
 
 function renderCart(){
@@ -168,13 +169,23 @@ function renderCart(){
   cart.forEach(item=>{
     const itemTotal = item.qty * item.price;
     total += itemTotal;
+
     container.innerHTML += `
-      <div class="flex justify-between items-center text-sm font-medium">
-        <span>${item.name} × ${item.qty}</span>
-        <div class="flex items-center gap-2">
-          <span>GHS ${itemTotal.toFixed(2)}</span>
+      <div class="flex justify-between items-center text-sm font-medium p-2 rounded hover:bg-gray-50">
+        <div>
+          <p>${item.name}</p>
+          <p class="text-green-700 font-bold">GHS ${itemTotal.toFixed(2)}</p>
+          <p class="text-xs text-gray-500">Qty: ${item.qty}</p>
+        </div>
+        <div class="flex flex-col items-end gap-1">
           <button onclick="removeFromCart('${item.name}')"
-            class="text-red-600 hover:text-red-800 font-bold text-lg">✖</button>
+            class="text-red-600 hover:text-red-800 font-semibold text-sm px-2 py-1 border border-red-600 rounded">
+            Remove
+          </button>
+          <div class="flex gap-1">
+            <button onclick="decreaseCartQty('${item.name}')" class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">-</button>
+            <button onclick="increaseCartQty('${item.name}')" class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">+</button>
+          </div>
         </div>
       </div>
     `;
@@ -196,38 +207,24 @@ function showCheckout(){
   document.getElementById('checkoutModal').classList.remove('hidden');
 }
 
-function closeCheckout(){
-  document.getElementById('checkoutModal').classList.add('hidden');
-}
-
-async function payNow(){
-  console.log("payNow called");
-
+function payNow(){
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const location = document.getElementById('location').value.trim();
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
   if(!name || !phone || !location){ alert("Fill all fields"); return;}
-
   const total = cart.reduce((s,i)=>s+i.qty*i.price,0);
   const payload = {name, phone, location, cart, amount: total, paymentMethod};
 
-  if(paymentMethod === 'cod'){
-    await fetch('https://your-worker-domain.workers.dev', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    alert("Order placed! ✅");
-    cart=[]; renderCart(); closeCheckout(); return;
-  }
-
-  if(typeof PaystackPop === "undefined"){
-    alert("Paystack not loaded");
+  if(paymentMethod==='cod'){
+    fetch('https://your-worker-domain.workers.dev', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+    }).then(()=>{ alert("Order placed! ✅"); cart=[]; renderCart(); document.getElementById('checkoutModal').classList.add('hidden'); });
     return;
   }
 
-  console.log("Launching Paystack...");
+  if(typeof PaystackPop === "undefined"){ alert("Paystack not loaded"); return; }
 
   PaystackPop.setup({
     key: "pk_test_1a654bb75fe2d39b626912eb42a2631b52bb0d03",
@@ -241,14 +238,11 @@ async function payNow(){
         {display_name:"Location", variable_name:"location", value:location}
       ]
     },
-    callback: async function(res){
-      await fetch('https://your-worker-domain.workers.dev', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
+    callback: function(res){
+      fetch('https://your-worker-domain.workers.dev', {
+        method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({...payload, reference: res.reference})
-      });
-      alert("Payment Successful! ✅");
-      cart=[]; renderCart(); closeCheckout();
+      }).then(()=>{ alert("Payment Successful! ✅"); cart=[]; renderCart(); document.getElementById('checkoutModal').classList.add('hidden'); });
     },
     onClose: function(){ alert("Payment cancelled!"); }
   }).openIframe();
