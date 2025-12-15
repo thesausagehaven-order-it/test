@@ -92,16 +92,19 @@
     In Stock
   </span>
 
-  <div class="flex items-center gap-2 mt-auto">
-    <button onclick="decreaseQty('sadia')" class="bg-gray-200 px-2 rounded text-lg">−</button>
-    <span id="qty-sadia" class="px-3">1</span>
-    <button onclick="increaseQty('sadia')" class="bg-gray-200 px-2 rounded text-lg">+</button>
+ <div class="flex items-center gap-2 mt-auto">
+  <button onclick="decreaseQty('qty-sadia')" class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">-</button>
+  
+  <span id="qty-sadia" class="w-12 text-center">1</span>
+  
+  <button onclick="increaseQty('qty-sadia')" class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">+</button>
 
-    <button onclick="addToCart('Sadia Sausage', 25.50, 'sadia')"
-            class="flex-1 bg-green-700 text-white text-sm py-1 rounded hover:bg-green-800">
-      Add
-    </button>
-  </div>
+  <button onclick="addToCart('Sadia Sausage', 25.50, 'qty-sadia')"
+    class="flex-1 bg-green-700 text-white text-sm py-1 rounded hover:bg-green-800">
+    Add
+  </button>
+</div>
+
 </div>
 
 
