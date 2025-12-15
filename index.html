@@ -1,196 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Sausage Haven</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Optional: smooth transition for cart drawer */
+    #cartDrawer { transition: transform 0.3s ease-in-out; }
+    #checkoutModal { transition: opacity 0.3s ease; }
+  </style>
 </head>
-
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800 font-sans">
 
 <!-- HEADER -->
 <header class="bg-white shadow sticky top-0 z-30">
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
     <div class="flex items-center gap-2">
-      <!-- Logo -->
       <img src="https://i.ibb.co/QjMfBBqz/LOGO.png" alt="Logo" class="h-10 w-10 object-contain">
-  
-    <h1 class="text-2xl font-bold text-green-700">The Sausage Haven</h1>
+      <h1 class="text-2xl font-bold text-green-700">The Sausage Haven</h1>
+    </div>
 
     <button onclick="toggleCart()" class="relative text-xl">
       🛒
-      <span id="cartCount"
-        class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-2 hidden">
-        0
-      </span>
+      <span id="cartCount" class="absolute -top-2 -right-2 bg-[#F2D0A7] text-green-800 text-xs rounded-full px-2 hidden">0</span>
     </button>
   </div>
 </header>
 
-<!-- MAIN -->
-<main class="max-w-7xl mx-auto px-4 py-8">
-<!-- HERO SECTION -->
-<section class="relative bg-white rounded-xl overflow-hidden mb-10 shadow-sm">
-  <img
-    src="https://images.unsplash.com/photo-1604908177225-6dd5f39c9c4f"
-    class="absolute inset-0 w-full h-full object-cover opacity-20"
-    alt="Sausages">
-
+<!-- HERO -->
+<section class="relative bg-white rounded-xl overflow-hidden mb-10 shadow-md">
+  <img src="https://images.unsplash.com/photo-1604908177225-6dd5f39c9c4f" 
+       class="absolute inset-0 w-full h-full object-cover opacity-30" alt="Sausages">
+  
   <div class="relative p-8 md:p-14 grid md:grid-cols-2 gap-8 items-center">
-    
-    <!-- TEXT -->
+    <!-- Text -->
     <div>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-3">
-        Hot, Fresh Sausages <br class="hidden md:block">
-        Delivered to You 🍖
+      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-3 drop-shadow-md">
+        Hot, Fresh Sausages <br class="hidden md:block"> Delivered to You 🍖
       </h2>
-
-      <p class="text-gray-700 mb-6">
+      <p class="text-gray-700 mb-6 text-lg">
         Quality sausages you trust — perfect for meals, hangouts, and campus life.
       </p>
-
       <div class="flex gap-3">
-        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})"
-          class="bg-green-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-800 transition">
+        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" 
+                class="bg-green-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-800 shadow-md transition transform hover:-translate-y-1">
           Shop Now
         </button>
-
-        <button
-          class="border border-green-700 text-green-700 px-6 py-3 rounded-lg font-medium hover:bg-green-50 transition">
+        <button class="border border-green-700 text-green-700 px-6 py-3 rounded-lg font-medium hover:bg-[#F2D0A7] hover:text-green-800 transition transform hover:-translate-y-1">
           Learn More
         </button>
       </div>
     </div>
 
-    <!-- IMAGE CARD -->
+    <!-- Hero Image -->
     <div class="hidden md:block">
-      <img
-        src="https://images.unsplash.com/photo-1617196037734-5b8b45b6a6c6"
-        class="rounded-xl shadow-lg"
-        alt="Sausage Plate">
+      <img src="https://images.unsplash.com/photo-1617196037734-5b8b45b6a6c6" 
+           class="rounded-xl shadow-lg" alt="Sausage Plate">
     </div>
-
   </div>
 </section>
 
-  <section id="shop">
+<!-- SHOP SECTION -->
+<section id="shop" class="mb-16 max-w-7xl mx-auto px-4">
   <h2 class="text-2xl font-bold mb-1">Shop Our Sausages</h2>
-  <p class="text-sm text-gray-600 mb-6">
-    Fresh stock • Affordable prices • Fast delivery
-  </p>
-
+  <p class="text-sm text-gray-600 mb-6">Fresh stock • Affordable prices • Fast delivery</p>
 
   <!-- PRODUCT GRID -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-
-    <!-- PRODUCT CARD -->
-   <div class="bg-white rounded-xl shadow hover:shadow-md transition p-4 flex flex-col">
-      <img src="https://jssupermarketgy.com/wp-content/uploads/2021/04/1020416-1.jpg"
-       class="h-32 object-contain mb-3 transition-transform duration-300 hover:scale-105">
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+    
+    <!-- PRODUCT CARD EXAMPLE -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col hover:-translate-y-1">
+      <img src="https://jssupermarketgy.com/wp-content/uploads/2021/04/1020416-1.jpg" 
+           class="h-32 object-contain mb-3 transition-transform duration-300 hover:scale-105 rounded-lg">
 
       <h3 class="font-semibold text-sm mb-1">Sadia Sausage</h3>
-
       <p class="text-green-700 font-bold mb-1">GHS 25.00</p>
 
-      <span class="text-xs mb-3 inline-block px-2 py-1 rounded-full
-        bg-green-100 text-green-700">
+      <span class="text-xs mb-3 inline-block px-2 py-1 rounded-full bg-[#F2D0A7] text-green-800 font-semibold">
         In Stock
       </span>
 
       <div class="flex items-center gap-2 mt-auto">
-        <input id="qty-sadia" type="number" min="1" value="1"
-          class="w-16 border rounded px-2 py-1 text-sm">
+        <input id="qty-sadia" type="number" min="1" value="1" 
+               class="w-16 border rounded px-2 py-1 text-sm focus:ring-1 focus:ring-green-700">
 
-        <button onclick="addToCart('Sadia Sausage', 25.50, 'qty-sadia')"
-          class="flex-1 bg-green-700 text-white text-sm py-1 rounded hover:bg-green-800">
+        <button onclick="addToCart('Sadia Sausage', 25.50, 'qty-sadia')" 
+                class="flex-1 bg-green-700 text-white text-sm py-1 rounded hover:bg-green-800 shadow-sm transition">
           Add
         </button>
       </div>
     </div>
 
-    <!-- MORE CARDS WILL COME HERE LATER -->
-
+    <!-- ADD MORE PRODUCT CARDS AS NEEDED -->
+    
   </div>
-  </section>
-</main>
+</section>
 
 <!-- CART DRAWER -->
-<div id="cartDrawer"
-  class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg
-         transform translate-x-full transition z-40">
-
+<div id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg transform translate-x-full z-40">
   <div class="p-4 flex justify-between items-center border-b">
     <h3 class="text-lg font-bold">Your Cart</h3>
     <button onclick="toggleCart()">✖</button>
   </div>
-
-  <div id="cartItems" class="p-4 space-y-3"></div>
-
+  <div id="cartItems" class="p-4 space-y-3 max-h-[70vh] overflow-y-auto"></div>
   <div class="p-4 border-t">
-    <p class="font-semibold mb-2">
-      Total: GHS <span id="cartTotal">0.00</span>
-    </p>
-    <button onclick="showCheckout()"
-      class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">
+    <p class="font-semibold mb-2">Total: GHS <span id="cartTotal">0.00</span></p>
+    <button onclick="showCheckout()" class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">
       Checkout
     </button>
   </div>
 </div>
 
 <!-- CHECKOUT MODAL -->
-<div id="checkoutModal"
-  class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+<div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
+    <h3 class="text-lg font-bold mb-4 text-green-700">Checkout</h3>
 
-  <div class="bg-white p-6 rounded-lg w-full max-w-md">
-    <h3 class="text-lg font-bold mb-4">Checkout</h3>
+    <input id="name" placeholder="Full Name" class="w-full border rounded px-3 py-2 mb-3 focus:ring-1 focus:ring-green-700">
+    <input id="phone" placeholder="Phone Number" class="w-full border rounded px-3 py-2 mb-3 focus:ring-1 focus:ring-green-700">
+    <input id="location" placeholder="Delivery Location" class="w-full border rounded px-3 py-2 mb-3 focus:ring-1 focus:ring-green-700">
 
-    <input id="name" placeholder="Full Name"
-      class="w-full border rounded px-3 py-2 mb-3">
-
-    <input id="phone" placeholder="Phone Number"
-      class="w-full border rounded px-3 py-2 mb-3">
-
-    <input id="location" placeholder="Delivery Location"
-      class="w-full border rounded px-3 py-2 mb-3">
-
-    <!-- PAYMENT METHOD -->
     <div class="mb-4">
       <p class="font-medium mb-2">Payment Method</p>
-
-      <label class="flex items-center gap-2 mb-1">
-        <input type="radio" name="paymentMethod" value="momo" checked>
-        Mobile Money (Paystack)
-      </label>
-
-      <label class="flex items-center gap-2">
-        <input type="radio" name="paymentMethod" value="cod">
-        Cash on Delivery
-      </label>
+      <label class="flex items-center gap-2 mb-1"><input type="radio" name="paymentMethod" value="momo" checked> Mobile Money (Paystack)</label>
+      <label class="flex items-center gap-2"><input type="radio" name="paymentMethod" value="cod"> Cash on Delivery</label>
     </div>
 
-    <button onclick="payNow()"
-      class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">
-      Place Order
-    </button>
+    <button onclick="payNow()" class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800">Place Order</button>
   </div>
 </div>
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
-
 <script>
   let cart = [];
 
   function addToCart(name, price, qtyId) {
     const qty = Number(document.getElementById(qtyId).value);
-
     if (qty < 1) return;
-
     cart = [{ name, qty, price }];
-
     document.getElementById("cartCount").innerText = qty;
     document.getElementById("cartCount").classList.remove("hidden");
-
     renderCart();
     toggleCart();
   }
@@ -220,10 +170,7 @@
   }
 
   function showCheckout() {
-    if (cart.length === 0) {
-      alert("Cart is empty");
-      return;
-    }
+    if (cart.length === 0) { alert("Cart is empty"); return; }
     document.getElementById("checkoutModal").classList.remove("hidden");
   }
 
@@ -231,13 +178,9 @@
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const location = document.getElementById("location").value.trim();
-    const paymentMethod =
-      document.querySelector('input[name="paymentMethod"]:checked')?.value;
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
 
-    if (!name || !phone || !location) {
-      alert("Fill all fields");
-      return;
-    }
+    if (!name || !phone || !location) { alert("Fill all fields"); return; }
 
     const total = cart.reduce((s, i) => s + i.qty * i.price, 0);
 
@@ -247,8 +190,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, location, cart, amount: total })
       }).then(() => {
-        window.location.href =
-          "https://sites.google.com/view/thesausagehaven?cod=true";
+        window.location.href = "https://sites.google.com/view/thesausagehaven?cod=true";
       });
       return;
     }
@@ -258,28 +200,14 @@
       email: `${phone}@sausagehaven.com`,
       amount: total * 100,
       currency: "GHS",
-      metadata: {
-        custom_fields: [
-          { variable_name: "name", value: name },
-          { variable_name: "phone", value: phone },
-          { variable_name: "location", value: location }
-        ],
-        cart
-      },
+      metadata: { custom_fields: [{ variable_name: "name", value: name }, { variable_name: "phone", value: phone }, { variable_name: "location", value: location }], cart },
       callback: res => {
-  cart = [];
-  localStorage.removeItem("cart");
-
-  window.open(
-    "https://sites.google.com/view/thesausagehaven?ref=" + res.reference,
-    "_blank"
-  );
-}
-
+        cart = [];
+        localStorage.removeItem("cart");
+        window.open("https://sites.google.com/view/thesausagehaven?ref=" + res.reference, "_blank");
       }
     }).openIframe();
   }
 </script>
-
 </body>
 </html>
